@@ -1,10 +1,13 @@
 import mongoose from 'mongoose';
-
 require('dotenv').config();
 
-const { MONGODB_USER, MONGODB_PASSWORD, MONGODB_URL, MONGODB_DB } = process.env;
-
 export async function initMongoConnection() {
-    await mongoose.connect(`mongodb://${MONGODB_USER}:${MONGODB_PASSWORD}@${MONGODB_URL}/contacts${MONGODB_DB}`);
-    console.log("Mongo connection successfully established!");   
+    try {
+    const { MONGODB_USER, MONGODB_PASSWORD, MONGODB_URL, MONGODB_DB } = process.env;
+    const uri = `mongodb://${MONGODB_USER}:${MONGODB_PASSWORD}@${MONGODB_URL}/${MONGODB_DB}?retryWrites=true&w=majority&appName=Cluster0`;
+    await mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+    console.log("Mongo connection successfully established!");     
+    } catch (error) {
+        console.error(error);
+    }
 };

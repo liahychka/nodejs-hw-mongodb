@@ -1,5 +1,7 @@
 import { initMongoConnection } from "./db";
 import { setupServer } from "./server";
+import 'dotenv/config';
 
-setupServer();
-initMongoConnection();
+initMongoConnection().then(() => {
+  setupServer();
+});
