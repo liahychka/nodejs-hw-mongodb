@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-require('dotenv').config();
+import 'dotenv/config';
 
 export async function initMongoConnection() {
     try {
