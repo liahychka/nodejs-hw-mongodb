@@ -19,17 +19,6 @@ app.use(pino((error, req, res, next) => {
     res.status(500).send({ status: 500, message: "Internal server error " });
 }));
 
-export function setupServer() {
-        try {
-            const PORT = process.env.PORT || 3000;
-            app.listen(PORT, () => {
-            console.log(`Server is running on port ${PORT}`);
-        });
-    } catch (error) {
-        console.error(error);
-    }
-}
-
 app.get('/contacts', async (req, res) => {
   try {
     const contacts = await getAllContacts();
@@ -59,3 +48,15 @@ app.get('/contacts/:contactId', async (req, res) => {
     console.error(error);
   }
 });
+
+export function setupServer() {
+        try {
+            const PORT = process.env.PORT || 3001;
+            app.listen(PORT, () => {
+            console.log(`Server is running on port ${PORT}`);
+        });
+    } catch (error) {
+        console.error(error);
+    }
+}
+
