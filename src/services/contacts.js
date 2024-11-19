@@ -4,8 +4,10 @@ export const getAllContacts = async () => {
   return Contact.find();
 };
 
-export const getContactById = async (id) => {
-  return Contact.findById(id);
+export const getContactById = async (contactId) => {
+
+  return Contact.findById(contactId);
+  
 };
 
 
