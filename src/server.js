@@ -19,6 +19,10 @@ app.use(pino((error, req, res, next) => {
     res.status(500).send({ status: 500, message: "Internal server error " });
 }));
 
+app.get('/', (req, res) => {
+  res.send('Welcome to the contacts API!');
+});
+
 app.get('/contacts', async (req, res) => {
   try {
     const contacts = await getAllContacts();
