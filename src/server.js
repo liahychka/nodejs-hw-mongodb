@@ -2,15 +2,16 @@ import cors from 'cors';
 import express from 'express';
 import pino from 'pino-http';
 import 'dotenv/config';
-import { getAllContacts, getContactById } from './services/contacts.js';
+import { errorHandler } from './middlewares/errorHandler.js';
+import { notFoundHandler } from './middlewares/notFoundHandler.js';
 
 const logger = pino({
   transport: {
-    target: 'pino-pretty', // Вказуємо pino-pretty для форматування логів
+    target: 'pino-pretty',
     options: {
-      colorize: true,        // Кольорове виділення
-      translateTime: 'SYS:standard', // Формат часу
-      ignore: 'pid,hostname', // Ігноруємо pid і hostname
+      colorize: true, 
+      translateTime: 'SYS:standard',
+      ignore: 'pid,hostname',
     },
   },
 });
@@ -23,44 +24,8 @@ app.use(express.json());
 
 app.use(logger);
 
-app.use((error, req, res, next) => {
-    console.error(error);
-    res.status(500).send({ status: 500, message: "Internal server error " });
-});
-
-app.get('/', (req, res) => {
-  res.send('Not found');
-});
-
-app.get('/contacts', async (req, res) => {
-  try {
-    const contacts = await getAllContacts();
-    res.status(200).json({
-      status: 200,
-      message: 'Successfully found contacts!',
-      data: contacts,
-    });
-  } catch (error) {
-        logger.error(error);
-  }
-});
-
-app.get('/contacts/:contactId', async (req, res) => {
-  try {
-    const contact = await getContactById(req.params.contactId);
-    if (contact) {
-      res.status(200).json({
-        status: 200,
-        message: `Successfully found contact with id ${req.params.contactId}!`,
-        data: contact,
-      });
-    } else {
-      res.status(404).json({ message: 'Contact not found' });
-    }
-  } catch (error) {
-    logger.error(error);
-  }
-});
+app.use(errorHandler);
+app.get('/', notFoundHandler);
 
 export function setupServer() {
         try {
