@@ -1,4 +1,5 @@
-export function errorHandler (error, req, res, next) {
-    console.error(error);
-    res.status(500).send({ status: 500, message: "Internal server error " });
+import createHttpError from 'http-errors';
+
+export function errorHandler(error, req, res, next) {
+    throw new createHttpError(500, 'Something went wrong');
 }
