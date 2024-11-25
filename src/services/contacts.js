@@ -15,3 +15,7 @@ export const createContact = async (contact) => {
 export const deleteContact = async (contactId) => {
   return Contact.findByIdAndDelete(contactId);
 };
+
+export const updateContact = async (contactId, contact) => {
+  return Contact.findByIdAndUpdate(contactId, contact, { new: true });
+};
