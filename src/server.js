@@ -1,6 +1,7 @@
 import cors from 'cors';
 import express from 'express';
 import 'dotenv/config';
+import pino from 'pino-http';
 import { errorHandler } from './middlewares/errorHandler.js';
 import { notFoundHandler } from './middlewares/notFoundHandler.js';
 import routes from './routers/contacts.js';
@@ -8,10 +9,28 @@ import routes from './routers/contacts.js';
 const app = express();
 
 app.use(cors());
-app.use(errorHandler);
-app.get('/', notFoundHandler);
 
 app.use(routes);
+
+app.use(
+    pino({
+      transport: {
+        target: 'pino-pretty',
+      },
+    }),
+  );
+
+  app.get('/', (req, res) => {
+    res.json({
+      message: 'Hello World!',
+    });
+  });
+
+app.use('*', notFoundHandler);
+
+app.use(errorHandler);
+
+
 
 export function setupServer() {
         try {
