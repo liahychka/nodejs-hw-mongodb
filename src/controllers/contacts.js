@@ -7,12 +7,16 @@ const router = express.Router();
 router.use(express.json());
 
 export async function getContactsControllers (req, res) {
-    const contacts = await getAllContacts();
-    res.status(200).json({
-      status: 200,
-      message: 'Successfully found contacts!',
-      data: contacts,
-    });
+  const contacts = await getAllContacts();
+  if (contacts) {
+      res.status(200).json({
+    status: 200,
+    message: 'Successfully found contacts!',
+    data: contacts,
+  });
+  } else {
+    throw new createHttpError(404, 'Contacts not found');
+  }
 };
 
 export async function getContactsIdControllers (req, res) {
