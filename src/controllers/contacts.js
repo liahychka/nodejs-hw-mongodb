@@ -8,6 +8,11 @@ router.use(express.json());
 
 export async function getContactsControllers (req, res) {
   const contacts = await getAllContacts();
+
+      if (contacts === null) {
+    throw new createHttpError(404, 'Contact not found');
+  }
+
   res.status(200).json({
     status: 200,
     message: 'Successfully found contacts!',
@@ -16,7 +21,12 @@ export async function getContactsControllers (req, res) {
 };
 
 export async function getContactsIdControllers (req, res) {
-    const contact = await getContactById(req.params.contactId);
+  const contact = await getContactById(req.params.contactId);
+  
+    if (contact === null) {
+    throw new createHttpError(404, 'Contact not found');
+  }
+
     res.status(200).json({
       status: 200,
       message: `Successfully found contact with id ${req.params.contactId}!`,
