@@ -9,7 +9,7 @@ router.use(express.json());
 export async function getContactsControllers (req, res) {
   const contacts = await getAllContacts();
 
-      if (contacts === null) {
+    if (contacts === null) {
     throw new createHttpError(404, 'Contact not found');
   }
 
