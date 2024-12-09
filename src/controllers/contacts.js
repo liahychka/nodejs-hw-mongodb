@@ -9,6 +9,8 @@ const router = express.Router();
 router.use(express.json());
 
 export async function getContactsControllers(req, res) {
+  // console.log(req.user);
+  
   const {page, perPage} = parsePaginationParams(req.query);
   const { sortBy, sortOrder } = parseSortParams(req.query); 
 
