@@ -16,9 +16,9 @@ app.use(cors());
 
 app.use(cookieParser());
 
-app.use(authenticate, routes);
-
 app.use('/auth', authRouter);
+
+app.use(authenticate, routes);
 
 app.use(
     pino({

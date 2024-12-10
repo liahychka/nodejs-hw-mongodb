@@ -9,16 +9,19 @@ const router = express.Router();
 router.use(express.json());
 
 export async function getContactsControllers(req, res) {
-  // console.log(req.user);
   
   const {page, perPage} = parsePaginationParams(req.query);
   const { sortBy, sortOrder } = parseSortParams(req.query); 
 
-  const contacts = await getAllContacts({page, perPage, sortBy, sortOrder});
+  const contacts = await getAllContacts({ page, perPage, sortBy, sortOrder, userId: req.user._id, });
 
     if (contacts === null) {
     throw new createHttpError(404, 'Contact not found');
-  }
+    }
+  
+  console.log(req.user._id);
+  console.log(contacts.userId);
+
 
   res.status(200).json({
     status: 200,
@@ -34,6 +37,9 @@ export async function getContactsIdControllers (req, res) {
     throw new createHttpError(404, 'Contact not found');
   }
 
+  // console.log(contact.ownerId);
+  // console.log(req.user.id);
+
     res.status(200).json({
       status: 200,
       message: `Successfully found contact with id ${req.params.contactId}!`,
@@ -48,6 +54,7 @@ export async function createContactController(req, res) {
     email: req.body.email,
     isFavourite: req.body.isFavourite,
     contactType: req.body.contactType,
+    userId: req.user._id,
   };
 
   const result = await createContact(contact);
