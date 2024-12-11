@@ -15,13 +15,9 @@ export async function getContactsControllers(req, res) {
 
   const contacts = await getAllContacts({ page, perPage, sortBy, sortOrder, userId: req.user._id, });
 
-    if (contacts === null) {
+  if (contacts === null) {
     throw new createHttpError(404, 'Contact not found');
     }
-  
-  console.log(req.user._id);
-  console.log(contacts.userId);
-
 
   res.status(200).json({
     status: 200,
@@ -35,10 +31,11 @@ export async function getContactsIdControllers (req, res) {
   
     if (contact === null) {
     throw new createHttpError(404, 'Contact not found');
-  }
-
-  // console.log(contact.ownerId);
-  // console.log(req.user.id);
+    }
+  
+  if (contact.userId.toString() !== req.user._id.toString()) {
+     throw new createHttpError(404, 'Contact not found');
+   }
 
     res.status(200).json({
       status: 200,
