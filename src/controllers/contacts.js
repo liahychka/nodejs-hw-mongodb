@@ -67,11 +67,13 @@ export async function createContactController(req, res) {
 export async function deleteContactController(req, res) {
   const { contactId } = req.params;
   
-  const result = await deleteContact(contactId);
+  const contact = await getContactById(contactId);
 
-  if (result === null) {
+  if (contact === null || contact.userId.toString() !== req.user._id.toString()) {
     throw new createHttpError(404, 'Contact not found');
   }
+
+  await deleteContact(contactId);
   
   res.status(204).send({
   status: 204,
@@ -82,6 +84,8 @@ export async function deleteContactController(req, res) {
 export async function updateContactController(req, res) {
   const { contactId } = req.params;
 
+  const existingContact = await getContactById(contactId);
+
   const contact = {
     name: req.body.name,
     phoneNumber: req.body.phoneNumber,
@@ -90,11 +94,11 @@ export async function updateContactController(req, res) {
     contactType: req.body.contactType,
   };
 
-  const result = await updateContact(contactId, contact);
-
-  if (result === null) {
+  if (existingContact === null || existingContact.userId.toString() !== req.user._id.toString()) {
     throw new createHttpError(404, 'Contact not found');
   }
+
+  const result = await updateContact(contactId, contact);
 
     res.status(200).send({
     status: 200,
