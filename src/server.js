@@ -1,3 +1,4 @@
+import path from "node:path";
 import cors from 'cors';
 import express from 'express';
 import 'dotenv/config';
@@ -11,6 +12,7 @@ import { authenticate } from "./middlewares/authenticate.js";
 
 const app = express();
 
+app.use("/photo", express.static(path.resolve("src/public/photo")));
 
 app.use(cors());
 

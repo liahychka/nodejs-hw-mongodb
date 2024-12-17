@@ -3,6 +3,9 @@ import express from 'express';
 import createHttpError from 'http-errors';
 import { parsePaginationParams } from "../utils/parsePaginationParams.js";
 import { parseSortParams } from "../utils/parseSortParams.js";
+import * as fs from "node:fs/promises";
+import path from "node:path";
+import { uploadToCloudinary } from "../utils/uploadToCloudinary.js";
 
 const router = express.Router();
 
@@ -45,6 +48,21 @@ export async function getContactsIdControllers (req, res) {
 };
 
 export async function createContactController(req, res) {
+  let photo = null;
+
+  if (typeof req.file !== "undefined") {
+    if (process.env.ENABLE_CLOUDINARY === "true") {
+      const result = await uploadToCloudinary(req.file.path);
+      await fs.unlink(req.file.path);
+
+      photo = result.secure_url;
+    } else {
+      await fs.rename(req.file.path, path.resolve("src", "public", "photo", req.file.filename));
+      photo = `http://localhost:3000/photo/${req.file.filename}`;
+    }
+
+  }
+  
   const contact = {
     name: req.body.name,
     phoneNumber: req.body.phoneNumber,
@@ -52,6 +70,7 @@ export async function createContactController(req, res) {
     isFavourite: req.body.isFavourite,
     contactType: req.body.contactType,
     userId: req.user._id,
+    photo,
   };
 
   const result = await createContact(contact);
@@ -67,13 +86,11 @@ export async function createContactController(req, res) {
 export async function deleteContactController(req, res) {
   const { contactId } = req.params;
   
-  const contact = await getContactById(contactId);
+  const contact = await deleteContact(contactId);
 
   if (contact === null || contact.userId.toString() !== req.user._id.toString()) {
     throw new createHttpError(404, 'Contact not found');
   }
-
-  await deleteContact(contactId);
   
   res.status(204).send({
   status: 204,
@@ -82,9 +99,22 @@ export async function deleteContactController(req, res) {
 }
 
 export async function updateContactController(req, res) {
-  const { contactId } = req.params;
+    let photo = null;
 
-  const existingContact = await getContactById(contactId);
+  if (typeof req.file !== "undefined") {
+    if (process.env.ENABLE_CLOUDINARY === "true") {
+      const result = await uploadToCloudinary(req.file.path);
+      await fs.unlink(req.file.path);
+
+      photo = result.secure_url;
+    } else {
+      await fs.rename(req.file.path, path.resolve("src", "public", "photo", req.file.filename));
+      photo = `http://localhost:3000/photo/${req.file.filename}`;
+    }
+
+  }
+
+  const { contactId } = req.params;
 
   const contact = {
     name: req.body.name,
@@ -92,18 +122,19 @@ export async function updateContactController(req, res) {
     email: req.body.email,
     isFavourite: req.body.isFavourite,
     contactType: req.body.contactType,
+    photo,
   };
+
+  const existingContact = await updateContact(contactId, contact);
 
   if (existingContact === null || existingContact.userId.toString() !== req.user._id.toString()) {
     throw new createHttpError(404, 'Contact not found');
   }
 
-  const result = await updateContact(contactId, contact);
-
     res.status(200).send({
     status: 200,
     message: "Successfully patched a contact!",
-    data: result
+    data: existingContact
   });
   
 }

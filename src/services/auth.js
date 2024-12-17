@@ -68,7 +68,7 @@ export async function refreshSession(sessionId, refreshToken) {
         userId: session.userId,
         accessToken: crypto.randomBytes(30).toString("base64"),
         refreshToken: crypto.randomBytes(30).toString("base64"),
-        accessTokenValidUntil: new Date(Date.now() + 15 * 60 * 1000),
+        accessTokenValidUntil: new Date(Date.now() + 180 * 60 * 1000),
         refreshTokenValidUntil: new Date(Date.now() + 720 * 60 * 60 + 1000),
         });
     
@@ -86,7 +86,7 @@ export async function sendResetPassword(email) {
     });
 
     await sendMail({
-        from: "lilihichka@seznam.cz",
+        from: "xaraci4658@kelenson.com",
         to: user.email,
         subject: "Reset password", 
         html: `<p>To reset your password please visit this <a href="http://localhost:3000/auth/send-reset-email?token=${resetToken}">link</a></p>`
