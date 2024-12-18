@@ -86,7 +86,7 @@ export async function sendResetPassword(email) {
     });
 
     await sendMail({
-        from: "xaraci4658@kelenson.com",
+        from: "lilihichka@seznam.cz",
         to: user.email,
         subject: "Reset password", 
         html: `<p>To reset your password please visit this <a href="http://localhost:3000/auth/send-reset-email?token=${resetToken}">link</a></p>`
