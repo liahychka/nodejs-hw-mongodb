@@ -48,20 +48,11 @@ export async function getContactsIdControllers (req, res) {
 };
 
 export async function createContactController(req, res) {
-  let photo = null;
 
-  if (typeof req.file !== "undefined") {
-    if (process.env.ENABLE_CLOUDINARY === "true") {
-      const result = await uploadToCloudinary(req.file.path);
+      const savePhotoCloudinary = await uploadToCloudinary(req.file.path);
       await fs.unlink(req.file.path);
 
-      photo = result.secure_url;
-    } else {
-      await fs.rename(req.file.path, path.resolve("src", "public", "photo", req.file.filename));
-      photo = `http://localhost:3000/photo/${req.file.filename}`;
-    }
-
-  }
+      const photo = savePhotoCloudinary.secure_url;
   
   const contact = {
     name: req.body.name,
