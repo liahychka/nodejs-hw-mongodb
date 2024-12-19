@@ -89,7 +89,7 @@ export async function sendResetPassword(email) {
         from: "lilihichka@seznam.cz",
         to: user.email,
         subject: "Reset password", 
-        html: `<p>To reset your password please visit this <a href="http://localhost:3000/auth/send-reset-email?token=${resetToken}">link</a></p>`
+        html: `<p>To reset your password please visit this <a href="http://localhost:3000/reset-password?token=${resetToken}">link</a></p>`
     });
     
 }
