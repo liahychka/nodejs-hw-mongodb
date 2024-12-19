@@ -49,11 +49,14 @@ export async function getContactsIdControllers (req, res) {
 
 export async function createContactController(req, res) {
 
+  let photo;
+  
+  if (req.file) {
       const savePhotoCloudinary = await uploadToCloudinary(req.file.path);
       await fs.unlink(req.file.path);
+      photo = savePhotoCloudinary.secure_url;
+    }
 
-      const photo = savePhotoCloudinary.secure_url;
-  
   const contact = {
     name: req.body.name,
     phoneNumber: req.body.phoneNumber,
@@ -90,20 +93,14 @@ export async function deleteContactController(req, res) {
 }
 
 export async function updateContactController(req, res) {
-    let photo = null;
 
-  if (typeof req.file !== "undefined") {
-    if (process.env.ENABLE_CLOUDINARY === "true") {
-      const result = await uploadToCloudinary(req.file.path);
+    let photo;
+  
+  if (req.file) {
+      const savePhotoCloudinary = await uploadToCloudinary(req.file.path);
       await fs.unlink(req.file.path);
-
-      photo = result.secure_url;
-    } else {
-      await fs.rename(req.file.path, path.resolve("src", "public", "photo", req.file.filename));
-      photo = `http://localhost:3000/photo/${req.file.filename}`;
+      photo = savePhotoCloudinary.secure_url;
     }
-
-  }
 
   const { contactId } = req.params;
 
