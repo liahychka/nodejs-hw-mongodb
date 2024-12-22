@@ -11,11 +11,14 @@ tags:
     description: Operation with contacts.
 servers:
   - url: http://localhost:3000
-  - url: #посилання на задеплоєний сайт
+  # - url: #посилання на задеплоєний сайт
 paths:
   /contacts/{id}:
     get:
       $ref: ../swagger/paths/contacts/{id}/get.yaml
+  /contacts:
+    post:
+      $ref: ../swagger/paths/contacts/post.yaml
 components:
   securitySchemes:
     bearerAuth:

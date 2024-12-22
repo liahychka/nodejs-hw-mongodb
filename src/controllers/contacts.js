@@ -4,7 +4,6 @@ import createHttpError from 'http-errors';
 import { parsePaginationParams } from "../utils/parsePaginationParams.js";
 import { parseSortParams } from "../utils/parseSortParams.js";
 import * as fs from "node:fs/promises";
-import path from "node:path";
 import { uploadToCloudinary } from "../utils/uploadToCloudinary.js";
 
 const router = express.Router();

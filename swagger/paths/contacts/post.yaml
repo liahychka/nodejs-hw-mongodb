@@ -1,17 +1,34 @@
 tags:
   - Contacts
-summary: Get contacts by id
-operationId: getContact
-description: We make a get request and receive a contact id in response
+summary: Create contact
+operationId: createContact
+description: We create a contact by post request
 security:
   - bearerAuth: []
-parameters:
-  - in: path
-    name: id
-    required: true
-    schema:
-      type: string
-      example: 6766cc60ba5c695b63e9c27c
+requestBody:
+  content:
+    multipar/form-data:
+      schema:
+        type: object
+        required:
+          - name
+          - phoneNumber
+          - contactType
+        properties:
+          name:
+            description: "Contact's name"
+            type: string
+            example: 'John Doe'
+          phoneNumber:
+            description: "Contact's phone number"
+            type: number
+            example: '+38096021387'
+          contactType:
+            description: "Contact's type"
+            type: string
+            enum: ['work', 'home', 'personal']
+            example: 'personal'
+
 responses:
   '200':
     description: Get contacts by id
