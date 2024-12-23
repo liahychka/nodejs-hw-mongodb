@@ -1,19 +1,22 @@
 tags:
   - Contacts
-summary: Create contact
-operationId: createContact
-description: We create a contact by post request
+summary: Update contact
+operationId: updateContact
+description: We make a request to change the contact
 security:
   - bearerAuth: []
+parameters:
+  - in: path
+    name: id
+    required: true
+    schema:
+      type: string
+      example: 6766cc60ba5c695b63e9c27c
 requestBody:
   content:
     multipar/form-data:
       schema:
         type: object
-        required:
-          - name
-          - phoneNumber
-          - contactType
         properties:
           name:
             description: "Contact's name"
@@ -21,7 +24,7 @@ requestBody:
             example: 'John Doe'
           phoneNumber:
             description: "Contact's phone number"
-            type: number
+            type: string
             example: '+38096021387'
           contactType:
             description: "Contact's type"
@@ -38,15 +41,14 @@ requestBody:
             example: false
             default: false
           photo:
-            description: "Contact's photo"
+            description: "Contact's photo (binary file)"
             type: string
             example: https://res.cloudinary.com/dha4xvgfi/image/upload/v1724438545/g3n05nth0sgqzyakh0dm.jpg
             default: null
             format: binary
-
 responses:
-  '201':
-    description: Created a student
+  '200':
+    description: Successfully patched a contact!
     content:
       application/json:
         schema:
@@ -58,13 +60,13 @@ responses:
           properties:
             status:
               type: integer
-              example: 201
+              example: 200
             message:
               type: string
-              example: Successfully created a student
+              example: Successfully patched a contact!
             data:
-              $ref: ../../components/schemas/contact.yaml
-  '401':
+              $ref: ../../../components/schemas/contact.yaml
+  '404':
     description: Contact not found
     content:
       application/json:
