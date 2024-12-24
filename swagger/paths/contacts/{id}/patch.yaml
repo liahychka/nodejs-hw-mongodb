@@ -14,7 +14,7 @@ parameters:
       example: 6766cc60ba5c695b63e9c27c
 requestBody:
   content:
-    multipar/form-data:
+    multipart/form-data:
       schema:
         type: object
         properties:
