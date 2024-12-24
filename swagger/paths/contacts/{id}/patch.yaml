@@ -66,23 +66,9 @@ responses:
               example: Successfully patched a contact!
             data:
               $ref: ../../../components/schemas/contact.yaml
+  '401':
+    $ref: ../../../components/response/401.yaml
   '404':
-    description: Contact not found
-    content:
-      application/json:
-        schema:
-          type: object
-          required:
-            - status
-            - message
-            - data
-          properties:
-            status:
-              type: integer
-              example: 404
-            message:
-              type: string
-              example: Contact not found
-            data:
-              type: object
-              example: {}
+    $ref: ../../../components/responses/404.yaml
+  '500':
+    $ref: ../../../components/response/500.yaml
