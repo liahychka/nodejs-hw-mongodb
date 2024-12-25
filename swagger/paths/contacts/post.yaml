@@ -14,7 +14,6 @@ requestBody:
           - name
           - phoneNumber
           - contactType
-          - userId
         properties:
           name:
             description: "Contact's name"
@@ -38,10 +37,6 @@ requestBody:
             type: boolean
             example: false
             default: false
-          userId:
-            description: "Contact's user id"
-            type: string
-            example: 66a92312c1de214c68f17d10
           photo:
             description: "Contact's photo"
             type: string
