@@ -14,6 +14,7 @@ requestBody:
           - name
           - phoneNumber
           - contactType
+          - userId
         properties:
           name:
             description: "Contact's name"
@@ -37,13 +38,16 @@ requestBody:
             type: boolean
             example: false
             default: false
+          userId:
+            description: "Contact's user id"
+            type: string
+            example: 66a92312c1de214c68f17d10
           photo:
             description: "Contact's photo"
             type: string
             example: https://res.cloudinary.com/dha4xvgfi/image/upload/v1724438545/g3n05nth0sgqzyakh0dm.jpg
             default: null
             format: binary
-
 responses:
   '201':
     description: Created a student
@@ -67,6 +71,6 @@ responses:
   '401':
     $ref: ../../components/response/401.yaml
   '404':
-    $ref: ../../components/responses/404.yaml
+    $ref: ../../components/response/404.yaml
   '500':
     $ref: ../../components/response/500.yaml
