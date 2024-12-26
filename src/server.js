@@ -1,7 +1,7 @@
 import * as fs from 'node:fs';
 import swaggerUI from 'swagger-ui-express';
 import path from 'node:path';
-// import cors from 'cors';
+import cors from 'cors';
 import express from 'express';
 import 'dotenv/config';
 import pino from 'pino-http';
@@ -22,7 +22,7 @@ app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 
 app.use('/photo', express.static(path.resolve('src/public/photo')));
 
-// app.use(cors());
+app.use(cors());
 
 app.use(cookieParser());
 
