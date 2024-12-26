@@ -65,7 +65,5 @@ responses:
               $ref: ../../components/schemas/contact.yaml
   '401':
     $ref: ../../components/response/401.yaml
-  '404':
-    $ref: ../../components/response/404.yaml
   '500':
     $ref: ../../components/response/500.yaml
