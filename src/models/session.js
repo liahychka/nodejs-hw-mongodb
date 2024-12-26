@@ -1,31 +1,31 @@
-import mongoose from "mongoose";
+// import mongoose from "mongoose";
 
-const Session = new mongoose.Schema({
-    userId: {
-        type: String,
-        required: true,
-    },
-    accessToken: {
-        type: String,
-        required: true,
-    },
-    refreshToken: {
-        type: String,
-        required: true,
-    },
-    accessTokenValidUntil: {
-        type: Date,
-        required: true,
-    },
-    refreshTokenValidUntil: {
-        type: Date,
-        required: true,
-    },
-}, {
-        versionKey: false, 
-        timestamps: true
-});
+// const Session = new mongoose.Schema({
+//     userId: {
+//         type: String,
+//         required: true,
+//     },
+//     accessToken: {
+//         type: String,
+//         required: true,
+//     },
+//     refreshToken: {
+//         type: String,
+//         required: true,
+//     },
+//     accessTokenValidUntil: {
+//         type: Date,
+//         required: true,
+//     },
+//     refreshTokenValidUntil: {
+//         type: Date,
+//         required: true,
+//     },
+// }, {
+//         versionKey: false, 
+//         timestamps: true
+// });
 
-const sessionMon = mongoose.model("Session", Session);
+// const sessionMon = mongoose.model("Session", Session);
 
-export { sessionMon };
+// export { sessionMon };
